@@ -1,4 +1,5 @@
 #define GIGA (1024.0 * 1024 * 1024)
+#define GIGAI (1024 * 1024 * 1024)
 #define NVARS 8
 
 #include "apple.h"
@@ -32,20 +33,20 @@ void fs(void){
 	printf("disk:   %.4g / %.4g GiB\n", total - ((size.f_bsize * size.f_bavail) / GIGA), total);
 }
 void mem(void){
+	int64_t total;
 	vm_size_t page_size;
 	mach_port_t mach_port;
 	mach_msg_type_number_t count;
 	vm_statistics64_data_t vm_stats;
-
 	mach_port = mach_host_self();
 	count = sizeof(vm_stats) / sizeof(natural_t);
+	size_t len = sizeof(int64_t);
+	sysctlbyname("hw.memsize", &total, &len, NULL, 0);
 	if (KERN_SUCCESS == host_page_size(mach_port, &page_size) &&
 	KERN_SUCCESS == host_statistics64(mach_port, HOST_VM_INFO, (host_info64_t)&vm_stats, &count)){
-		double free = ((int64_t)vm_stats.free_count + (int64_t)vm_stats.inactive_count) * (int64_t)page_size;
 		double used = ((int64_t)vm_stats.active_count + (int64_t)vm_stats.wire_count) * (int64_t)page_size;
-		free /= GIGA;
 		used /= GIGA;
-		printf("memory: %.4g / %.4g GiB\n", used, free + used);
+		printf("memory: %.4g / %lld GiB\n", used, total / GIGAI);
 	}
 }
 void uptime(void){ //taken from screenfetch-c
@@ -54,29 +55,29 @@ void uptime(void){ //taken from screenfetch-c
 	if (timebase_info.denom == 0){
 		(void) mach_timebase_info(&timebase_info);
 	}
-	uptime = (long long)((mach_absolute_time() * timebase_info.numer) / (1000* 1000 * timebase_info.denom));
+	uptime = (long long)((mach_absolute_time() * timebase_info.numer) / (1000 * 1000 * timebase_info.denom));
 	printf("uptime: %.4g hours\n", uptime / (1000.0 * 60 * 60));
 }
-void pkgs(){
+void pkgs(void){
 	glob_t gl;
+	gl.gl_pathc = 0;
 	if(access("/usr/local/Cellar/", F_OK) != -1)
 		glob("/usr/local/Cellar/*", GLOB_NOSORT, NULL, &gl);
 	if(access("/opt/local/bin/", F_OK) != -1)
 		glob("/opt/local/bin/*", GLOB_NOSORT, NULL, &gl);
-	if(gl.gl_pathc)
-		printf("pkgs:   %zu\n", gl.gl_pathc);
+	printf("pkgs:   %zu\n", gl.gl_pathc);
 }
-void kernel(){
-	printf("kernel: %s %s\n", uts.sysname, uts.release);
+void kernel(void){
+	printf("kernel: %s %s %s\n", uts.machine, uts.sysname, uts.release);
 }
-void cpu(){
+void cpu(void){
 	size_t size;
 	sysctlbyname("machdep.cpu.brand_string", NULL, &size, NULL, 0);
 	char *out = malloc(size);
 	sysctlbyname("machdep.cpu.brand_string", out, &size, NULL, 0);
 	printf("cpu:    %s\n", out);
 }
-void shell(){
+void shell(void){
 	printf("shell:  %s\n", basename(getenv("SHELL")));
 }
 int main(int argc, char *argv[]){
