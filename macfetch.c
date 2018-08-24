@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <glob.h>
+#include <time.h>
+#include <math.h>
 #include <sys/utsname.h>
 #include <sys/sysctl.h>
 #include <sys/param.h>
@@ -49,14 +51,11 @@ void mem(void){
 		printf("memory: %.4g / %lld GiB\n", used, total / GIGAI);
 	}
 }
-void uptime(void){ //taken from screenfetch-c
-	long long uptime = 0;
-	static mach_timebase_info_data_t timebase_info;
-	if (timebase_info.denom == 0){
-		(void) mach_timebase_info(&timebase_info);
-	}
-	uptime = (long long)((mach_absolute_time() * timebase_info.numer) / (1000 * 1000 * timebase_info.denom));
-	printf("uptime: %.4g hours\n", uptime / (1000.0 * 60 * 60));
+void uptime(void){
+	struct timeval boot;
+	size_t len = sizeof(boot);
+	sysctlbyname("kern.boottime", &boot, &len, NULL, 0);
+	printf("uptime: %.4g hours\n", fabs(difftime(boot.tv_sec, time(NULL)) / (60 * 60)));
 }
 void pkgs(void){
 	glob_t gl;
