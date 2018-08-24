@@ -55,7 +55,7 @@ void uptime(void){
 	struct timeval boot;
 	size_t len = sizeof(boot);
 	sysctlbyname("kern.boottime", &boot, &len, NULL, 0);
-	printf("uptime: %.4g hours\n", fabs(difftime(boot.tv_sec, time(NULL)) / (60 * 60)));
+	printf("uptime: %.4g hours\n", difftime(time(NULL), boot.tv_sec) / (60 * 60));
 }
 void pkgs(void){
 	glob_t gl;
