@@ -34,7 +34,26 @@ struct utsname uts;
 glob_t gl;
 double disk_total, disk_used;
 int opt;
+char buf[128];
 
+char *model(void){
+	size_t len;
+	sysctlbyname("hw.model", NULL, &len, NULL, 0);
+	char *mod = malloc(len*sizeof(char));
+	sysctlbyname("hw.model", mod, &len, NULL, 0);
+	FILE *log;
+	log = fopen("/var/log/system.log", "r");
+	while(fgets(buf, 128, log)){
+		if(strstr(buf, "akeSMC")){
+			strcpy(buf, "Hackintosh, SMBIOS = ");
+			break;
+		}
+	}
+	if(feof(log))
+		return mod;
+	else
+		return strcat(buf, mod);
+}
 char *ver(void){
 	char ver = (uts.release[0] == '1')?uts.release[1] - '0' + 6:uts.release[0] - '0' - 4, 
 	*code[15] = {"", "Cheetah", "Jaguar", "Panther", "Tiger", "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", "Yosemite", "El Capitan", "Sierra", "High Sierra", "Mojave"};
@@ -112,23 +131,25 @@ int main(int argc, char *argv[]){
 		printf(
 		"os:      %s\n"
 		"kernel:  %s %s %s\n"
+		"model:   %s\n"
 		"cpu:     %s\n"
 		"fs:      %.4g / %.4g GiB\n"
 		"mem:     %.4g / %lld GiB\n"
 		"uptime:  %.4g hours\n"
 		"pkgs:    %zu\n"
 		"shell:   %s\n"
-		, ver(), uts.machine, uts.sysname, uts.release, cpu(), disk_used, disk_total, ram_used(), ram_total(), uptime(), gl.gl_pathc, basename(getenv("SHELL")));
+		, ver(), uts.machine, uts.sysname, uts.release, model(), cpu(), disk_used, disk_total, ram_used(), ram_total(), uptime(), gl.gl_pathc, basename(getenv("SHELL")));
 	else
 		printf(
 			G"      (/        "E"os:      %s\n"
 			G" ,adAb  dAba.   "E"kernel:  %s %s %s\n"
-			O"d$$$$$$$$$$$$P  "E"cpu:     %s\n"
-			D"$$$$$$$$$$$P    "E"fs:      %.4g / %.4g GiB\n"
-			R"$$$$$$$$$$$b    "E"mem:     %.4g / %lld GiB\n"
-			M"V$$$$$$$$$$$$P  "E"uptime:  %.4g hours\n"
-			F" Y$$$$$$$$$$P   "E"pkgs:    %zu\n"
-			F"  \"*\"~  ~\"*\"    "E"shell:   %s\n"
-		, ver(), uts.machine, uts.sysname, uts.release, cpu(), disk_used, disk_total, ram_used(), ram_total(), uptime(), gl.gl_pathc, basename(getenv("SHELL")));
+			O"d$$$$$$$$$$$$P  "E"model:   %s\n"
+			D"$$$$$$$$$$$P    "E"cpu:     %s\n"
+			R"$$$$$$$$$$$b    "E"fs:      %.4g / %.4g GiB\n"
+			M"V$$$$$$$$$$$$P  "E"mem:     %.4g / %lld GiB\n"
+			F" Y$$$$$$$$$$P   "E"uptime:  %.4g hours\n"
+		    F"  \"*\"~  ~\"*\"    "E"pkgs:    %zu\n"
+		    	"                shell:   %s\n"
+		, ver(), uts.machine, uts.sysname, uts.release, model(), cpu(), disk_used, disk_total, ram_used(), ram_total(), uptime(), gl.gl_pathc, basename(getenv("SHELL")));
 	return 0;
 }
