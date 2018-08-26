@@ -25,6 +25,8 @@ int64_t total(void){
 	sysctlbyname("hw.memsize", &total, &len, NULL, 0);
 	return total / GIGA;
 }
-void mem(void){
-	printf("memory: %.4g / %lld GiB\n", used(), total());
+char *mem(void){
+	char *out;
+	asprintf(&out, "%.4g / %lld GiB", used(), total());
+	return out;
 }

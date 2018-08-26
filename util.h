@@ -1,5 +1,3 @@
-#define GIGA (1024.0 * 1024 * 1024)
-#define GIGAI (1024 * 1024 * 1024)
 #define NVARS 9
 
 #define E "\e[0m"
@@ -21,12 +19,10 @@ char *apple[NVARS] = {
 F"  \"*\"~  ~\"*\"    "E,
 	"                "
 };
-void ver(void);
-void kernel(void);
-void model(void);
-void cpu(void);
-void fs(void);
-void mem(void);
-void uptime(void);
-void pkgs(void);
-void shell(void);
+char *model(void);
+char *cpu(void);
+char *fs(void);
+char *mem(void);
+char *uptime(void);
+char *pkgs(void);
+char *shell(void);

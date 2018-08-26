@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <sys/sysctl.h>
 
-void model(void){
-	char buf[128];
+char *model(void){
+	char buf[128], *out;
 	size_t len;
 	sysctlbyname("hw.model", NULL, &len, NULL, 0);
 	char *mod = malloc(len * sizeof(char));
@@ -15,9 +15,6 @@ void model(void){
 		if(strstr(buf, "akeSMC"))
 			break;
 	}
-	if(feof(log))
-		printf("model:  %s\n", mod);
-	else{
-		printf("model:  Hackintosh (%s SMBIOS)\n", mod);
-	}
+	asprintf(&out, "%s%s", feof(log)?"":"Hackintosh, SMBIOS = ", mod);
+	return out;
 }
