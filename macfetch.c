@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/utsname.h>
 struct utsname uts;
 char *ver(void){
 	char *out;
 	char ver = (uts.release[0] == '1')?uts.release[1] - '0' + 6:uts.release[0] - '0' - 4;
-	char *code[15] = {"", "Cheetah", "Jaguar", "Panther", "Tiger", "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", "Yosemite", "El Capitan", "Sierra", "High Sierra", "Mojave"};
-	asprintf(&out, "%s 10.%d %s", (ver < 8)?"Mac OS X":(ver < 12)?"OS X":"macOS", ver, code[ver]);
+	char *code[15] = {"Cheetah", "Jaguar", "Panther", "Tiger", "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", "Yosemite", "El Capitan", "Sierra", "High Sierra", "Mojave"};
+	asprintf(&out, "%s 10.%d %s", (ver < 8)?"Mac OS X":(ver < 12)?"OS X":"macOS", ver, code[ver - 1]);
 	return out;
 }
 char *kernel(void){
@@ -25,8 +26,7 @@ int main(int argc, char *argv[]){
 	int opt;
 	char *(*funs[NVARS])(void) = {ver, kernel, model, cpu, fs, mem, uptime, pkgs, shell},
 	*labels[NVARS] = {"os", "kernel", "model", "cpu", "disk", "memory", "uptime", "pkgs", "shell"},
-	*guispaces[NVARS] = {"		", "	", "	", "		", "	", "	", "	", "	", "	"},
-	*termspaces[NVARS] = {"    ", "", " ", "   ", "  ", "", "", "  ", " "};
+	*guispaces[NVARS] = {"		", "	", "	", "		", "	", "	", "	", "	", "	"};
 	uname(&uts);
 	while ((opt = getopt(argc, argv, "ghlu")) != -1){
 		switch(opt){
@@ -46,12 +46,15 @@ int main(int argc, char *argv[]){
 	}
 	if(!pref.uh)
 		printf("%s%s@%s\n", pref.logo?"":"                ", getenv("USER"), uts.nodename);
-	
-	char **spaces = pref.gui?guispaces:termspaces;
-
+	char longestelementlength = 0;
+	for (int i = 0; i < NVARS; ++i)
+		if(strlen(labels[i]) > longestelementlength)
+			longestelementlength = strlen(labels[i]);
+	char *space = malloc(longestelementlength);
+	memset(space, ' ', longestelementlength);
 	for (int i = 0; i < NVARS; ++i){
 		if(!pref.logo) printf("%s", apple[i]);
-		printf("%s: %s%s\n", labels[i], spaces[i], funs[i]());
+		printf("%s: %s%s\n", labels[i], pref.gui?guispaces[i]:space + strlen(labels[i]), funs[i]());
 	}
 	return 0;
 }
