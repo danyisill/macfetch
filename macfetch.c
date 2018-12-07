@@ -5,13 +5,6 @@
 #include <string.h>
 #include <sys/utsname.h>
 struct utsname uts;
-char *ver(void){
-	char *out;
-	char ver = (uts.release[0] == '1')?uts.release[1] - '0' + 6:uts.release[0] - '0' - 4;
-	char *code[15] = {"Cheetah", "Jaguar", "Panther", "Tiger", "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", "Yosemite", "El Capitan", "Sierra", "High Sierra", "Mojave"};
-	asprintf(&out, "%s 10.%d %s", (ver < 8)?"Mac OS X":(ver < 12)?"OS X":"macOS", ver, code[ver - 1]);
-	return out;
-}
 char *kernel(void){
 	char *out;
 	asprintf(&out, "%s %s %s", uts.machine, uts.sysname, uts.release);
@@ -46,10 +39,10 @@ int main(int argc, char *argv[]){
 	}
 	if(!pref.uh)
 		printf("%s%s@%s\n", pref.logo?"":"                ", getenv("USER"), uts.nodename);
-	char longestelementlength = 0;
+	char longestelementlength = 0, temp = 0;
 	for (int i = 0; i < NVARS; ++i)
-		if(strlen(labels[i]) > longestelementlength)
-			longestelementlength = strlen(labels[i]);
+		if((temp = strlen(labels[i])) > longestelementlength)
+			longestelementlength = temp;
 	char *space = malloc(longestelementlength);
 	memset(space, ' ', longestelementlength);
 	for (int i = 0; i < NVARS; ++i){

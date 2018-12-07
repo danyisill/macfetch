@@ -19,6 +19,7 @@ char *apple[NVARS] = {
 F"  \"*\"~  ~\"*\"    "E,
 	"                "
 };
+char *ver(void);
 char *model(void);
 char *cpu(void);
 char *fs(void);
