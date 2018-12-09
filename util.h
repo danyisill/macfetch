@@ -1,4 +1,4 @@
-#define NVARS 9
+#define NVARS 10
 
 #define E "\e[0m"
 #define B "\e[1m"
@@ -17,6 +17,7 @@ char *apple[NVARS] = {
 	M"V$$$$$$$$$$$$P  "E,
 	F" Y$$$$$$$$$$P   "E,
 F"  \"*\"~  ~\"*\"    "E,
+	"                ",
 	"                "
 };
 char *ver(void);
@@ -27,3 +28,4 @@ char *mem(void);
 char *uptime(void);
 char *pkgs(void);
 char *shell(void);
+char *theme(void);

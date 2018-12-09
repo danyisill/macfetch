@@ -17,9 +17,9 @@ int main(int argc, char *argv[]){
 		unsigned gui : 1;
 	} pref;
 	int opt;
-	char *(*funs[NVARS])(void) = {ver, kernel, model, cpu, fs, mem, uptime, pkgs, shell},
-	*labels[NVARS] = {"os", "kernel", "model", "cpu", "disk", "memory", "uptime", "pkgs", "shell"},
-	*guispaces[NVARS] = {"		", "	", "	", "		", "	", "	", "	", "	", "	"};
+	char *(*funs[NVARS])(void) = {ver, kernel, model, cpu, fs, mem, uptime, pkgs, shell, theme},
+	*labels[NVARS] = {"os", "kernel", "model", "cpu", "disk", "memory", "uptime", "pkgs", "shell", "theme"},
+	*guispaces[NVARS] = {"		", "	", "	", "		", "	", "	", "	", "	", "	", " "};
 	uname(&uts);
 	while ((opt = getopt(argc, argv, "ghlu")) != -1){
 		switch(opt){
