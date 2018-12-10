@@ -10,4 +10,3 @@ const char *theme(void){
 	NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 	return [[NSString stringWithFormat:@"%s %s", ([def objectForKey:@"AppleInterfaceStyle"])?"Dark":"Light", ([def objectForKey:@"AppleAccentColor"])?accents[[def integerForKey:@"AppleAccentColor"] + 1]:([def integerForKey:@"AppleAquaColorVariant"] == 6)?"Graphite":"Blue"] UTF8String];
 }
-//[[[def dictionaryRepresentation] allKeys] containsObject:@"AppleAccentColor"]
