@@ -13,7 +13,7 @@ char *uptime(void){
 	minutes = seconds / 60,
 	hours = minutes / 60,
 	days = hours / 24;
-	char *out = malloc(32);
+	char *out = malloc(64);
 	if(days)
 		len += sprintf(out + len, "%d day%s, ", days, (days == 1)?"":"s");
 	if(hours)
