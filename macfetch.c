@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/utsname.h>
+
+#define SIZE(a) (sizeof a / sizeof *a)
+
 struct utsname uts;
 char *kernel(void){
 	char *out;
@@ -17,9 +20,9 @@ int main(int argc, char *argv[]){
 		unsigned gui : 1;
 	} pref;
 	int opt;
-	char *(*funs[NVARS])(void) = {ver, kernel, model, cpu, fs, mem, uptime, pkgs, shell, theme},
-	*labels[NVARS] = {"os", "kernel", "model", "cpu", "disk", "memory", "uptime", "pkgs", "shell", "theme"},
-	*guispaces[NVARS] = {"		", "	", "	", "		", "	", "	", "	", "	", "	", " "};
+	char *(*funs[])(void) = {ver, kernel, model, cpu, gpu, fs, mem, uptime, pkgs, shell, theme},
+	*labels[] = {"os", "kernel", "model", "cpu", "gpu", "disk", "memory", "uptime", "pkgs", "shell", "theme"},
+	*guispaces[] = {"		", "	", "	", "		", "", "	", "	", "	", "	", "	", " "};
 	uname(&uts);
 	while ((opt = getopt(argc, argv, "ghlu")) != -1){
 		switch(opt){
@@ -40,12 +43,12 @@ int main(int argc, char *argv[]){
 	if(!pref.uh)
 		printf("%s%s@%s\n", pref.logo?"":"                ", getenv("USER"), uts.nodename);
 	char longestelementlength = 0, temp = 0;
-	for (int i = 0; i < NVARS; ++i)
+	for (int i = 0; i < SIZE(labels); ++i)
 		if((temp = strlen(labels[i])) > longestelementlength)
 			longestelementlength = temp;
 	char *space = malloc(longestelementlength);
 	memset(space, ' ', longestelementlength);
-	for (int i = 0; i < NVARS; ++i){
+	for (int i = 0; i < SIZE(labels); ++i){
 		if(!pref.logo) printf("%s", apple[i]);
 		printf("%s: %s%s\n", labels[i], pref.gui?guispaces[i]:space + strlen(labels[i]), funs[i]());
 	}

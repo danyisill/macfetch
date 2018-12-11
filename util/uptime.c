@@ -9,7 +9,7 @@ char *uptime(void){
 	size_t size = sizeof(boot),
 	len = 0;
 	sysctlbyname("kern.boottime", &boot, &size, NULL, 0);
-	unsigned seconds = (unsigned)round(difftime(time(NULL), boot.tv_sec)),
+	unsigned seconds = round(difftime(time(NULL), boot.tv_sec)),
 	minutes = seconds / 60,
 	hours = minutes / 60,
 	days = hours / 24;
