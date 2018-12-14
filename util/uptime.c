@@ -15,12 +15,12 @@ char *uptime(void){
 	days = hours / 24;
 	char *out = malloc(64);
 	if(days)
-		len += sprintf(out + len, "%d day%s%s", days, (days == 1)?"":"s", (hours % 24)?", ":"");
+		len += sprintf(out + len, "%d day%s", days, (days == 1)?"":"s");
 	if(hours % 24)
-		len += sprintf(out + len, "%d hour%s%s", hours % 24, (hours % 24 == 1)?"":"s", (minutes % 60)?", ":"");
+		len += sprintf(out + len, ", %d hour%s", hours % 24, (hours % 24 == 1)?"":"s");
 	if(minutes % 60)
-		len += sprintf(out + len, "%d minute%s%s", minutes % 60, (minutes % 60 == 1)?"":"s", (seconds % 60)?", ":"");
+		len += sprintf(out + len, ", %d minute%s", minutes % 60, (minutes % 60 == 1)?"":"s");
 	if(seconds % 60)
-		len += sprintf(out + len, "%d second%s", seconds % 60, (seconds % 60 == 1)?"":"s");
+		len += sprintf(out + len, ", %d second%s", seconds % 60, (seconds % 60 == 1)?"":"s");
 	return out;
 }
