@@ -1,3 +1,4 @@
+#include "util/map.h"
 #define E "\e[0m"
 #define B "\e[1m"
 #define G B "\e[38;5;2m"
@@ -19,13 +20,13 @@ F"  \"*\"~  ~\"*\"    "E,
 	"                ",
 	"                "
 };
-char *ver(void);
-char *model(void);
-char *cpu(void);
-char *gpu(void);
-char *fs(void);
-char *mem(void);
-char *uptime(void);
-char *pkgs(void);
-char *shell(void);
-char *theme(void);
+char *ver(Map *map);
+char *model(Map *map);
+char *cpu(Map *map);
+char *gpu(Map *map);
+char *fs(Map *map);
+char *mem(Map *map);
+char *uptime(Map *map);
+char *pkgs(Map *map);
+char *shell(Map *map);
+char *theme(Map *map);

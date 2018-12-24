@@ -8,20 +8,21 @@
 #define SIZE(a) (sizeof a / sizeof *a)
 
 struct utsname uts;
-char *kernel(void){
+char *kernel(Map *map){
 	char *out;
 	asprintf(&out, "%s %s %s", uts.machine, uts.sysname, uts.release);
 	return out;
 }
 int main(int argc, char *argv[]){
+	Map map;
 	struct {
 		unsigned logo : 1;
 		unsigned uh : 1;
 		unsigned gui : 1;
 	} pref;
 	int opt;
-	char *(*funs[])(void) = {ver, kernel, model, cpu, gpu, fs, mem, uptime, pkgs, shell, theme},
-	*labels[] = {"os", "kernel", "model", "cpu", "gpu", "disk", "memory", "uptime", "pkgs", "shell", "theme"},
+	char *(*funs[])(Map *map) = {ver, kernel, model, cpu, gpu, fs, mem, uptime, pkgs, shell, theme};
+	char *labels[] = {"os", "kernel", "model", "cpu", "gpu", "disk", "memory", "uptime", "pkgs", "shell", "theme"},
 	*guispaces[] = {"		", "	", "	", "		", "		", "		", "	", "	", "	", "	", "	"};
 	uname(&uts);
 	while ((opt = getopt(argc, argv, "ghlu")) != -1){
@@ -50,7 +51,7 @@ int main(int argc, char *argv[]){
 	memset(space, ' ', longestelementlength);
 	for (int i = 0; i < SIZE(labels); ++i){
 		if(!pref.logo) printf("%s", apple[i]);
-		printf("%s: %s%s\n", labels[i], pref.gui?guispaces[i]:space + strlen(labels[i]), funs[i]());
+		printf("%s: %s%s\n", labels[i], pref.gui?guispaces[i]:space + strlen(labels[i]), funs[i](&map));
 	}
 	return 0;
 }
