@@ -1,5 +1,5 @@
 # macfetch
-tiny, fast *fetch script for mac/darwin in C.
+tiny, fast system information *fetch script for mac/darwin in C.
 
 forked from https://github.com/danyisill/macfetch
 
