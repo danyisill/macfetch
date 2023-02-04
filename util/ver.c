@@ -15,10 +15,22 @@ void _build_ver(char **build_ver){
 	*build_ver = malloc(16);
 	CFStringGetCString(CFPreferencesCopyAppValue(CFSTR("ProductBuildVersion"), def), *build_ver, 16, kCFStringEncodingUTF8);
 }
-char *ver(Map *map){
-	_ver(&map->ver);
-	_build_ver(&map->ver.build_ver);
-	char *out;
-	asprintf(&out, "%s %d.%d.%d %s (%s)", (map->ver.min < 8)?"Mac OS X":(map->ver.min < 12)?"OS X":"macOS", map->ver.maj, map->ver.min, map->ver.fix, codenames[map->ver.min - 1], map->ver.build_ver);
-	return out;
+char *ver(Map *map) {
+  _ver(&map->ver);
+  _build_ver(&map->ver.build_ver);
+  char *os_name = "macOS";
+  if (map->ver.maj < 10 || (map->ver.maj == 10 && map->ver.min < 8)) {
+    os_name = "Mac OS X";
+  }
+  int codename_index = (map->ver.maj - 10) * 6 + (map->ver.min - 6);
+  if (codename_index >= 0 && codename_index <= 17) {
+    codename_index = codename_index >= 9 ? codename_index + 1 : codename_index;
+  }
+  char *codename = (codename_index >= 0 && codename_index <= 17) ? codenames[codename_index] : "";
+  if (map->ver.maj == 13 && map->ver.min == 2) {
+    codename = "Ventura";
+  }
+  char *out;
+  asprintf(&out, "%s %d.%d.%d %s (%s)", os_name, map->ver.maj, map->ver.min, map->ver.fix, codename, map->ver.build_ver);
+  return out;
 }
