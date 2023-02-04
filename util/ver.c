@@ -1,7 +1,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include "map.h"
 #define def CFSTR("/System/Library/CoreServices/SystemVersion")
-char *codenames[] = {"Cheetah", "Jaguar", "Panther", "Tiger", "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", "Yosemite", "El Capitan", "Sierra", "High Sierra", "Mojave"};
+char *codenames[] = {"Cheetah", "Jaguar", "Panther", "Tiger", "Leopard", "Snow Leopard", "Lion", "Mountain Lion", "Mavericks", "Yosemite", "El Capitan", "Sierra", "High Sierra", "Mojave", "Catalina", "Big Sur", "Monterey", "Ventura"};
 void _ver(struct ver *ver){
 	CFArrayRef split = CFStringCreateArrayBySeparatingStrings(NULL, CFPreferencesCopyAppValue(CFSTR("ProductVersion"), def), CFSTR("."));
 	ver->maj = CFStringGetIntValue(CFArrayGetValueAtIndex(split, 0));
