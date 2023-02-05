@@ -21,3 +21,6 @@ const char *gpu() {
 
   return strdup(result);
 }
+
+//GPU detection rewrite
+//author: Larry Bankovich/lennox <addaitech@gmail.com>
