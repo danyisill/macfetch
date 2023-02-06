@@ -18,7 +18,7 @@ updated gpu detection and version detection, also added MacPorts (https://www.ma
 
     lennox@lennoxs-iMac.local
 
-	      (/         os: macOS 13.2.0 Ventura (22D49)
+	      (/          os: macOS 13.2.0 Ventura (22D49)
      ,adAb dAba.   kernel: x86_64 Darwin 22.3.0
     d$$$$$$$$$$$$P  model: iMac18,1
     $$$$$$$$$$$P      cpu: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
