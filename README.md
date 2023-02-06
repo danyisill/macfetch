@@ -6,6 +6,7 @@ forked from https://github.com/danyisill/macfetch
 updated gpu detection and version detection, also added MacPorts (https://www.macports.org/) to package count report.
 
 
+<<<<<<< HEAD
 example output:
 [lennox@lennoxs-iMac] % ./macfetch            [~/Projects/macfetch]
                 lennox@lennoxs-iMac.local
@@ -20,3 +21,5 @@ V$$$$$$$$$$$$P  disk:   176.7 / 465.1 GiB
                 pkgs:   387
                 shell:  zsh
                 theme:  Dark Blue
+=======
+>>>>>>> b685e5bfb77c10acd51dd2c4744ac0807df82d3b
