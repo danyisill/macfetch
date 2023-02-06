@@ -10,6 +10,8 @@ forked from https://github.com/danyisill/macfetch
 
 updated gpu detection and version detection, also added MacPorts (https://www.macports.org/) to package count report.
 
+sample output:
+
   
   
 
