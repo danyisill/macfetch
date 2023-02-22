@@ -24,7 +24,7 @@ sample output:
      ,adAb dAba.   kernel: x86_64 Darwin 22.3.0
     d$$$$$$$$$$$$P  model: iMac18,1
     $$$$$$$$$$$P      cpu: Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
-    $$$$$$$$$$$b      gpu: AMD Radeon RX 560
+    $$$$$$$$$$$b      gpu: Intel HD Graphics 4600, AMD Radeon RX 560
     V$$$$$$$$$$$$P   disk: 176.7 / 465.1 GiB
      Y$$$$$$$$$$P  memory: 7.876 / 16 GiB
       "*"~ ~"*"    uptime: 2d5h9m10s
