@@ -28,7 +28,7 @@ char *ver(Map *map) {
     codename_index = codename_index >= 9 ? codename_index + 1 : codename_index;
   }
   char *codename = (codename_index >= 0 && codename_index <= 17) ? codenames[codename_index] : "";
-  if (map->ver.maj == 13 && map->ver.min == 2) {
+  if (map->ver.maj == 13 && map->ver.min == 3) {
     codename = "Ventura";
   }
   char *out;
