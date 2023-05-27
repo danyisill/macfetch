@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
 	int opt;
 	char *(*funs[])(Map *map) = {ver, kernel, model, cpu, gpu, fs, mem, uptime, pkgs, shell, theme};
 	char *labels[] = {"os", "kernel", "model", "cpu", "gpu", "disk", "memory", "uptime", "pkgs", "shell", "theme"},
-	*guispaces[] = {"		", "	", "	", "		", "		", "		", "	", "	", "	", "	", "	"};
+	*guispaces[] = {"":, "	", "	", "		", "		", "		", "	", "	", "	", "	", "	"};
 	uname(&uts);
 	while ((opt = getopt(argc, argv, "ghlu")) != -1){
 		switch(opt){
